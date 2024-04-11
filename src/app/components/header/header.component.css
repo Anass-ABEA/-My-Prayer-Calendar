@@ -1,0 +1,27 @@
+.m-active{
+  font-weight: bold;
+}
+
+.icon{
+  height: 2rem;
+}
+
+.navbar-brand{
+  text-decoration: none;
+  display: inline-flex;
+}
+
+.container {
+  text-align: center;
+  width: 100%;
+}
+
+.container a{
+  padding: 0 5px ;
+  margin: 0 5px ;
+  text-decoration: none;
+}
+
+.container a:visited{
+  color: black;
+}

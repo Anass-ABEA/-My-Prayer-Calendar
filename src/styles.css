@@ -1,0 +1,48 @@
+/* You can add global styles to this file, and also import other style files */
+
+.primary-color{
+  color: #203fde!important;
+}
+.bg-primary-color{
+  background: #203fde!important;
+  color:white!important;
+  margin: 10px;
+}
+
+.text-center{
+  text-align: center;
+}
+
+.full-width{
+  width: 100%;
+}
+
+.column{
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.center-element {
+  margin: 0 auto;
+}
+
+.container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+
+*{
+  --mdc-checkbox-selected-icon-color : #203fde!important;
+  --mdc-checkbox-selected-hover-icon-color : #203fde!important;
+  --mdc-checkbox-selected-focus-icon-color : #203fde!important;
+  --mdc-checkbox-selected-hover-pressed-color : #203fde!important;
+  --mdc-checkbox-selected-pressed-icon-color: #203fde!important;
+}
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+

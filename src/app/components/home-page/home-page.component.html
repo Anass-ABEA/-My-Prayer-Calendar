@@ -1,0 +1,83 @@
+<div class="container">
+  <h2 class="pure-u-1 text-center my-5">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</h2>
+  <h3 class="pure-u-1 text-center my-3">Calendar Generator for Prayers</h3>
+  <p>
+    <b>Note:</b> This is purely End-User processing. We do not store any data nor use cookies. The purpose is to load
+    prayer times for your location based on the options you select.
+  </p>
+
+  <div class="my-2">
+
+
+    <div class="pure-g">
+      <div class="pure-u-1-2 text-center center-element">
+        <mat-form-field class="full-width">
+          <mat-label>Enter your Address</mat-label>
+          <input [(ngModel)]="address" matInput placeholder="Address"
+                 [value]="calendarSettings.startMinutesBefore.toString()">
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="pure-u-1-2 text-center column">
+      <mat-form-field class="full-width">
+        <mat-label>Generate For Duration</mat-label>
+        <input readonly matInput [matDatepicker]="picker" #pickerVal [value]="now()">
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker startView="multi-year" #picker
+                        (yearSelected)="chosenYearHandler($event)"
+                        (monthSelected)="chosenMonthHandler($event, picker,pickerVal)">
+
+        </mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <mat-label>Minutes before Athan</mat-label>
+        <input min="0" max="3600" type="number" [(ngModel)]="calendarSettings.startMinutesBefore" matInput placeholder="Minutes before Athan"
+               [value]="calendarSettings.startMinutesBefore.toString()">
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <mat-label>Minutes Duration</mat-label>
+        <input min="1" max="3600" type="number"  [(ngModel)]="calendarSettings.durationMinutes"  matInput placeholder="Minutes Duration"
+               [value]="calendarSettings.durationMinutes.toString()">
+      </mat-form-field>
+    </div>
+
+    <div class="pure-u-1-2 column">
+      <span>Select the Prayers you want to include in the Calendar Invite:</span>
+      <section>
+        <div class="pure-u-1-2" *ngFor="let prayer of loadPrayers()">
+          <mat-checkbox [checked]="isChecked(prayer)" (change)="changeCheckFor(prayer,$event)">
+            {{prayer}}
+          </mat-checkbox>
+        </div>
+
+      </section>
+
+      <mat-form-field class="full-width" style="margin-top: 16px" *ngIf="isJumuaaSelected()">
+        <mat-label>Jumuaa Prayer Duration (Minutes)</mat-label>
+        <input min="1" max="3600"  [(ngModel)]="calendarSettings.jumuaaConfig.durationMinutes"  type="number" matInput placeholder="umuaa Prayer Duration (Minutes)"
+               [value]="calendarSettings.jumuaaConfig.durationMinutes.toString()">
+      </mat-form-field>
+    </div>
+
+    <div class="pure-g">
+      <div class="pure-u-1-2 center-element text-center">
+        <button mat-flat-button class="bg-primary-color"  (click)="generateIcsFile()">Generate ICS File</button>
+      </div>
+    </div>
+    <div class="pure-g" *ngIf="!showDownloadCopy()">
+      <div class="pure-u-1-2 center-element text-center">
+        <p>ICS file generated! You can Upload it to your Outlook or your Google calendar:</p>
+        <button mat-flat-button class="bg-primary-color" [cdkCopyToClipboard]="generatedIcsText">Copy Content to Clipboard</button>
+        <button mat-flat-button class="bg-primary-color"  (click)="downloadIcsFile()">Download</button>
+      </div>
+    </div>
+
+
+
+
+  </div>
+
+</div>

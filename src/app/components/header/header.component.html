@@ -1,0 +1,11 @@
+<mat-toolbar>
+  <a class="navbar-brand primary-color" href="#">
+    <img class="icon" alt="Prayer Mat p-2" src="assets/mat.svg"/>
+    My Prayer
+  </a>
+
+  <div class="container" fxLayout="row" fxLayoutAlign="center center">
+    <a mat-button routerLink="/" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="m-active primary-color">Home</a>
+    <a mat-button routerLink="/about" routerLinkActive="m-active primary-color">About</a>
+  </div>
+</mat-toolbar>
