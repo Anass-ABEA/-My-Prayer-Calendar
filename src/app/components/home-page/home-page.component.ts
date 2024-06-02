@@ -46,6 +46,7 @@ export class HomePageComponent implements OnInit{
 
 
   generatedIcsText = "";
+  initialDateValue = `${StringHelper.numberFormatter((new Date()).getMonth()+1,2)}/${(new Date()).getFullYear()}`
 
 
   constructor(private athanApiService: AthanApiService, private calendarService : CalendarGeneratorService) {  }
@@ -59,7 +60,7 @@ export class HomePageComponent implements OnInit{
   }
 
   chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<any>, inputValue: HTMLInputElement ) {
-    this.calendarSettings.month = normalizedMonth.month()
+    this.calendarSettings.month = normalizedMonth.month()+1
     inputValue.value =`${StringHelper.numberFormatter(this.calendarSettings.month,2)}/${this.calendarSettings.year}`
     datepicker.close();
   }
@@ -88,7 +89,6 @@ export class HomePageComponent implements OnInit{
 
   generateIcsFile() {
     this.generatedIcsText = "";
-    console.log(this.calendarSettings);
     this.athanApiService.loadAthanData(this.calendarSettings.year,this.calendarSettings.month, {address: this.address})
       .subscribe(result =>{
         this.loadedAthanData = <Array<AthanDataItem>>result.data;

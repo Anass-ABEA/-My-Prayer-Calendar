@@ -14,7 +14,7 @@
         <mat-form-field class="full-width">
           <mat-label>Enter your Address</mat-label>
           <input [(ngModel)]="address" matInput placeholder="Address"
-                 [value]="calendarSettings.startMinutesBefore.toString()">
+                 [value]="address">
         </mat-form-field>
       </div>
     </div>
@@ -22,7 +22,7 @@
     <div class="pure-u-1-2 text-center column">
       <mat-form-field class="full-width">
         <mat-label>Generate For Duration</mat-label>
-        <input readonly matInput [matDatepicker]="picker" #pickerVal [value]="now()">
+        <input readonly matInput [matDatepicker]="picker" #pickerVal [defaultValue]="initialDateValue">
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker startView="multi-year" #picker
                         (yearSelected)="chosenYearHandler($event)"
