@@ -12,6 +12,10 @@ export class CalendarGeneratorService {
   constructor() { }
 
   generateICS(meetingDetails: Array<AthanDataItem>, calendarSettings : CalendarSettings) : string {
+    const rtlMark = '\u200F'; // Right-To-Left Mark
+    const ltrMark = '\u200E'; // Left-To-Right Mark
+
+
     const timeZone = meetingDetails[0].meta.timezone
 
     let icsContent = `BEGIN:VCALENDAR
@@ -30,8 +34,11 @@ PRODID:-//WhiteBatIslam//EN`;
         reminderStart.setMinutes(prayerDate.getMinutes() - calendarSettings.startMinutesBefore)
         const momStart = moment.tz(reminderStart, timeZone)
 
-        if(AthanDate.isFriday(athanData.date) && prayer === Prayers.DUHUR)
-          reminderEnd.setTime(reminderStart.getTime() + calendarSettings.jumuaaConfig.durationMinutes * 60000);
+        if(AthanDate.isFriday(athanData.date) && prayer === Prayers.DHUHR)
+          if(calendarSettings.prayersToSave.includes(Prayers.JUMUAA))
+            reminderEnd.setTime(reminderStart.getTime() + calendarSettings.jumuaaConfig.durationMinutes * 60000);
+          else
+            reminderEnd.setTime(reminderStart.getTime() + calendarSettings.durationMinutes * 60000); // if jumuaa isn't selected then set the normal duration
         else
           reminderEnd.setTime(reminderStart.getTime() + calendarSettings.durationMinutes * 60000);
 
@@ -47,6 +54,12 @@ DTEND:${momEnd.format("YYYYMMDDTHHmmss")}
 TZOFFSETFROM:${momStart.format("ZZ")}
 TZOFFSETTO:${momStart.format("ZZ")}
 TZNAME:${timeZone}
+DESCRIPTION: Athan for ${prayer}\\n \
+Prayer Time : ${AthanDataItem.getSimpleTimeStr(athanData,prayer)}\\n \
+Hijri Date Arabic  : ${ltrMark}${rtlMark}${athanData.date.hijri.year} ${athanData.date.hijri.month.ar} ${athanData.date.hijri.day} ${athanData.date.hijri.weekday.ar}${ltrMark}\\n \
+Hijri Date English : ${athanData.date.hijri.weekday.en} ${athanData.date.hijri.day} ${athanData.date.hijri.month.en} ${athanData.date.hijri.year}\\n \
+Timezone : ${athanData.meta.timezone}\\n \
+Calculation Method : [${athanData.meta.method.id}] ${athanData.meta.method.name}
 END:VEVENT`;
 
       })

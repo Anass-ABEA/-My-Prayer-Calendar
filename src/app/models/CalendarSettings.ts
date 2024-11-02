@@ -6,7 +6,7 @@ export default class CalendarSettings{
   durationMinutes : number;
   startMinutesBefore: number;
   prayersToSave: Array<Prayers> = [
-    Prayers.FAJR, Prayers.DUHUR, Prayers.ASR, Prayers.MAGHRIB, Prayers.ISHA, Prayers.JUMUAA
+    Prayers.FAJR, Prayers.DHUHR, Prayers.ASR, Prayers.MAGHRIB, Prayers.ISHA, Prayers.JUMUAA
   ]
   jumuaaConfig = {
     durationMinutes: 60

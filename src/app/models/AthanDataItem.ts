@@ -29,6 +29,13 @@ export class AthanDataItem{
     return athanItem.date.gregorian.date+"T"+(athanItem.timings[prayer] || "").split(" ")[0]
   }
 
+
+
+  static getSimpleTimeStr(athanItem: AthanDataItem, prayer : string): string{
+    // @ts-ignore
+    return athanItem.timings[prayer]
+  }
+
 }
 
 export class AthanMeta{
@@ -91,15 +98,18 @@ class AthanDateDetails{
   format: string
   day: string
   weekday: {
-    en : string
+    en : string,
+    ar?: string
   }
   month: {
-    number: number
+    number: number,
+    en: string
+    ar?: string
   }
   year : string
 
 
-  constructor(date: string, format: string, day: string, weekday: { en: string }, month: { number: number }, year: string) {
+  constructor(date: string, format: string, day: string, weekday: { en: string, ar?: string }, month: { number: number, en: string, ar?: string }, year: string) {
     this.date = date;
     this.format = format;
     this.day = day;

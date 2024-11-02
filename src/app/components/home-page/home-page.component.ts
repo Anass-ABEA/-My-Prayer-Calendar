@@ -46,10 +46,11 @@ export class HomePageComponent implements OnInit{
 
 
   generatedIcsText = "";
-  initialDateValue = `${StringHelper.numberFormatter((new Date()).getMonth()+1,2)}/${(new Date()).getFullYear()}`
+  initialDateValue = `${StringHelper.numberFormatter((new Date()).getMonth() + 1, 2)}/${(new Date()).getFullYear()}`
 
 
-  constructor(private athanApiService: AthanApiService, private calendarService : CalendarGeneratorService) {  }
+  constructor(private athanApiService: AthanApiService, private calendarService: CalendarGeneratorService) {
+  }
 
   ngOnInit(): void {
 
@@ -59,23 +60,23 @@ export class HomePageComponent implements OnInit{
     this.calendarSettings.year = normalizedYear.year()
   }
 
-  chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<any>, inputValue: HTMLInputElement ) {
-    this.calendarSettings.month = normalizedMonth.month()+1
-    inputValue.value =`${StringHelper.numberFormatter(this.calendarSettings.month,2)}/${this.calendarSettings.year}`
+  chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<any>, inputValue: HTMLInputElement) {
+    this.calendarSettings.month = normalizedMonth.month() + 1
+    inputValue.value = `${StringHelper.numberFormatter(this.calendarSettings.month, 2)}/${this.calendarSettings.year}`
     datepicker.close();
   }
 
-  loadPrayers() {
+  loadPrayers(): Prayers[] {
     return Object.values(Prayers);
   }
 
   changeCheckFor(prayer: Prayers, $event: MatCheckboxChange) {
-    if($event.checked){
-      if(!this.calendarSettings.prayersToSave.includes(prayer)){
+    if ($event.checked) {
+      if (!this.calendarSettings.prayersToSave.includes(prayer)) {
         this.calendarSettings.prayersToSave.push(prayer);
       }
-    }else{
-      this.calendarSettings.prayersToSave = this.calendarSettings.prayersToSave.filter(p=>p!==prayer);
+    } else {
+      this.calendarSettings.prayersToSave = this.calendarSettings.prayersToSave.filter(p => p !== prayer);
     }
   }
 
@@ -89,28 +90,28 @@ export class HomePageComponent implements OnInit{
 
   generateIcsFile() {
     this.generatedIcsText = "";
-    this.athanApiService.loadAthanData(this.calendarSettings.year,this.calendarSettings.month, {address: this.address})
-      .subscribe(result =>{
+    this.athanApiService.loadAthanData(this.calendarSettings.year, this.calendarSettings.month, {address: this.address})
+      .subscribe(result => {
         this.loadedAthanData = <Array<AthanDataItem>>result.data;
         this.generatedIcsText = this.calendarService.generateICS(this.loadedAthanData, this.calendarSettings);
       })
 
   }
 
-  showDownloadCopy(){
+  showDownloadCopy() {
     return this.generatedIcsText.length === 0;
   }
 
 
   downloadIcsFile() {
-      const blob = new Blob([this.generatedIcsText], { type: 'text/calendar;charset=utf-8' });
-      const url = window.URL.createObjectURL(blob);
+    const blob = new Blob([this.generatedIcsText], {type: 'text/calendar;charset=utf-8'});
+    const url = window.URL.createObjectURL(blob);
 
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', `AthanPrayers-${this.calendarSettings.month}-${this.calendarSettings.year}.ics`);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `AthanPrayers-${this.calendarSettings.month}-${this.calendarSettings.year}.ics`);
 
-      link.click();
+    link.click();
   }
 
   now() {
